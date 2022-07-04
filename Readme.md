@@ -37,7 +37,7 @@ qb-menu - https://github.com/qbcore-framework/qb-menu
 QBShared.Items = {
 -- gruppejob
 	['gruppe-case'] 		     	 = {['name'] = 'gruppe-case', 		     	 	['label'] = "Money Case", 	        	['weight'] = 200, 	   	['type'] = 'item',   	['image'] = 'gruppe-case.png',       	['unique'] = false, 	['useable'] = true, 	['shouldClose'] = true,    ['combinable'] = nil,   ['description'] = 'A metal case full of money'},
-	['inked-bills'] 		     	 = {['name'] = 'inked-bills', 		     	 	['label'] = "Inked Bills", 	        	['weight'] = 200, 	   	['type'] = 'item',   	['image'] = 'inked-bills.png',       	['unique'] = false, 	['useable'] = true, 	['shouldClose'] = true,    ['combinable'] = nil,   ['description'] = 'A Roll of Inked Bills'},
+	['inked-bills'] 		     	 = {['name'] = 'inked-bills', 		     	 	['label'] = "Inked Bills", 	        	['weight'] = 200, 	   	['type'] = 'item',   	['image'] = 'inked-bills.png',       	['unique'] = false, 	['useable'] = true, 	['shouldClose'] = true,    ['combinable'] = nil,   ['description'] = 'A Bag of Inked Bills'},
 
 }
 
