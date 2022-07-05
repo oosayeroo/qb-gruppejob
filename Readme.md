@@ -9,6 +9,7 @@
 
 - This Job has been tested on the latest build as of 04/07/2022.
 
+Discord - https://discord.gg/3WYz3zaqG5
 
 ## Dependencies :
 
