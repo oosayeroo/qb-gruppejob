@@ -15,6 +15,21 @@ local showMarker = false
 local GJMarkerLocation
 
 
+DrawText3Ds = function(x, y, z, text)
+	SetTextScale(0.35, 0.35)
+    SetTextFont(4)
+    SetTextProportional(1)
+    SetTextColour(255, 255, 255, 215)
+    SetTextEntry("STRING")
+    SetTextCentre(true)
+    AddTextComponentString(text)
+    SetDrawOrigin(x,y,z, 0)
+    DrawText(0.0, 0.0)
+    local factor = (string.len(text)) / 370
+    DrawRect(0.0, 0.0+0.0125, 0.017+ factor, 0.03, 0, 0, 0, 75)
+    ClearDrawOrigin()
+end
+
 CreateThread(function()
     if Config.GJDrawText == "enabled" then 
         while true do
@@ -50,13 +65,13 @@ CreateThread(function()
                     for k, v in pairs(Config.GruppeLocations["sell-inked-bills"]) do
                         if #(pos - vector3(v.x, v.y, v.z)) < 0.9 then
                             sleep = 5
-                            QBCore.Functions.DrawText3D(v.x, v.y, v.z, "~g~[E]~w~ - Sell 10 Bills")
+                            QBCore.Functions.DrawText3D(v.x, v.y, v.z, "~g~[E]~w~ - Sell Bills")
                             if IsControlJustReleased(0, 38) then
-                                TriggerEvent("qb-gruppejob:SellInkedBills")
+                                TriggerEvent("qb-gruppejob:client:SellInkedBills")
                             end
                         elseif #(pos - vector3(v.x, v.y, v.z)) < 1.5 then
                             sleep = 5
-                            QBCore.Functions.DrawText3D(v.x, v.y, v.z, "Sell 10 Bills")
+                            QBCore.Functions.DrawText3D(v.x, v.y, v.z, "Sell Bills")
                         end
                     end
   
@@ -569,20 +584,30 @@ RegisterNetEvent('qb-gruppejob:DepositCase', function()
     end)
 end)		
 
-RegisterNetEvent('qb-gruppejob:SellInkedBills', function()
-    TriggerEvent('animations:client:EmoteCommandStart', {"idle"})
-    TriggerServerEvent('QBCore:Server:RemoveItem', "inked-bills", Config.InkedBillsGiven)
-    QBCore.Functions.Progressbar('falar_empregada', 'Selling Bills...', 5000, false, true, {
-        disableMovement = true,
-        disableCarMovement = true,
-        disableMouse = false,
-        disableCombat = true,
-    }, {}, {}, {}, function()
-    QBCore.Functions.Notify('You Sold Inked Bills', 'primary', 7500)
-
-    TriggerServerEvent('qb-gruppejob:server:InkedBillsReward')
-    end)
-end)		
+RegisterNetEvent("qb-gruppejob:client:SellInkedBills")
+AddEventHandler("qb-gruppejob:client:SellInkedBills", function()
+    	QBCore.Functions.TriggerCallback('qb-gruppejob:server:get:LocalBillItem', function(HasItems)  
+    		if HasItems then
+				QBCore.Functions.Progressbar("pickup_sla", "Selling Bills..", 4000, false, true, {
+					disableMovement = true,
+					disableCarMovement = true,
+					disableMouse = false,
+					disableCombat = true,
+				}, {
+					animDict = "mp_common",
+					anim = "givetake1_a",
+					flags = 8,
+				}, {}, {}, function() -- Done
+					TriggerServerEvent('qb-gruppejob:server:SellInkedBills')
+                    			QBCore.Functions.Notify("You Sold Bills", "success")
+				end, function()
+					QBCore.Functions.Notify("Cancelled..", "error")
+				end)
+			else
+   				QBCore.Functions.Notify("You dont have the Bills", "error")
+			end
+		end)  
+end)
 
 
 RegisterNetEvent("qb-gruppejob:OpenCase")
