@@ -25,6 +25,8 @@ Config.GruppeLocations = {
     },
 }
 
+--Config.SellBillLocation = vector3(244.51, 373.88, 105.74)
+
 
 Config.GJLocations = {
     ["homebase"] = {    
